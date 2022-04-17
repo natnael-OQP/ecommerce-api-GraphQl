@@ -30,6 +30,7 @@ const typeDefs = gql`
 
     input filterInput {
         onSale: Boolean
+        avgRating: Int
     }
 
     type Query {
