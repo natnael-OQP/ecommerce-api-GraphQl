@@ -1,21 +1,32 @@
 exports.Query = {
     products: (parent, { filter }, { db }) => {
         let filteredProducts = db.products
+
         if (filter) {
             const { onSale, avgRating } = filter
-            if (onSale)
+            if (onSale) {
                 filteredProducts = filteredProducts.filter(
                     (product) => product.onSale === true
                 )
-            if ([1, 2, 3, 4, 5].includes(avgRating))
-            filteredProducts = filteredProducts.filter((product) => {
-                    let sumRating = 0
+            }
+
+            if (avgRating) {
+                filteredProducts = filteredProducts.filter((product) => {
+                    let sumAvgRating = 0
+                    let totalRating = 0
+
                     db.reviews.forEach((review) => {
-                        if ((review.productId = product.id))
-                            sumRating += review.rating
+                        if (review.productId == product.id) {
+                            sumAvgRating += review.rating
+                            totalRating += 1
+                        }
                     })
-                    console.log(sumRating, product.name)
+
+                    if (sumAvgRating / totalRating >= avgRating) {
+                        return product
+                    }
                 })
+            }
         }
         return filteredProducts
     },
