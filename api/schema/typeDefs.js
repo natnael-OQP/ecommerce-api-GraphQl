@@ -33,11 +33,19 @@ const typeDefs = gql`
         avgRating: Int
     }
 
+    input categoryInput {
+        name: String!
+    }
+
     type Query {
         products(filter: filterInput): [Product!]!
         product(id: String!): Product!
         categories: [Category!]!
         category(id: String!): Category!
+    }
+
+    type Mutation {
+        addCategory(input: categoryInput): Category
     }
 `
 
